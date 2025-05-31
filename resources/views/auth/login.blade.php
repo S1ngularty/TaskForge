@@ -1,8 +1,10 @@
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{asset("js/token.js")}}"></script>
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form>
         @csrf
 
         <!-- Email Address -->
@@ -44,4 +46,5 @@
             </x-primary-button>
         </div>
     </form>
+
 </x-guest-layout>
