@@ -20,7 +20,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -28,7 +28,19 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $task = new Task();
+    // Manually assign attributes
+    $task->name = $request['name'];
+    $task->occurence = $request['occurence'];
+    $task->user_id=auth()->user()->id();
+    $task->description="dasdsa";
+
+        if(!$task){
+            return response()->json(['status'=>500,'message'=>'failed to store','data'=>$task]);
+        }
+
+        return response()->json(array('status'=>201,'message'=>'successfully store','data'=>$request->all()));
     }
 
     /**

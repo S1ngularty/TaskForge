@@ -1,5 +1,4 @@
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="{{asset("js/token.js")}}"></script>
+@extends('layouts.base')
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
