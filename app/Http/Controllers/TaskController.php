@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -14,7 +15,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $task= Task::withWhereHas('user')->get();
+        return response()->json($task);
     }
 
     /**

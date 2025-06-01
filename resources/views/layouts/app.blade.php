@@ -52,6 +52,8 @@
 
     <script src="{{asset("js/token.js")}}"></script>
     <script src="{{asset("js/task.js")}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
+
     <script>
         $(document).ready(function () {
             $("#logout").click(function (e) { 
