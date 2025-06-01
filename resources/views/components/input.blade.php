@@ -21,6 +21,7 @@
         id="{{ $name }}"
         placeholder="{{ $placeholder }}"
         {{ $required ? 'required' : '' }}
+        value="{{$value}}"
         {{ $attributes->merge(['class' => 'w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500']) }}
     >
 

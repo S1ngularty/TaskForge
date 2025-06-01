@@ -26,12 +26,12 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $request->authenticate();
-        $token= JWTAuth::fromuser(auth()->user());
+        $token=JWTAuth::fromuser(auth()->user());
         $request->session()->regenerate();
           return response()->json([
         'message' => 'Login successful',
-        'token' => $token,
-        'redirect' => route('dashboard'),
+        'token'=>$token,
+        'redirect' => route('dashboard')
     ]);
     }
 

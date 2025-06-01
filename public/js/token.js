@@ -1,7 +1,9 @@
 $(document).ready(function () {
-    $("form").on("submit",function (e) {
+    console.log("tangina")
+    $("#login").on("click",function (e) {
         e.preventDefault()
-        const formData=new FormData($("form")[0])
+        const formData=new FormData($("#loginForm")[0])
+        console.log("clicked")
         $.ajax({
             method:"POST",
             data:formData,
@@ -9,7 +11,11 @@ $(document).ready(function () {
             contentType:false,
             dataType:"json",
             url:"/login",
+            headers:{
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function (data){
+                console.log(data)
                 localStorage.setItem('token',data.token)
                 window.location.href=data.redirect
             },
@@ -19,20 +25,4 @@ $(document).ready(function () {
         })
       })
 
-    $("#logOutForm").on("submit",function(e){
-        e.preventDefault()
-        console.log('asdasdas')
-        $.ajax({
-            method:"POST",
-            dataType:"json",
-            url:"/logout",
-             headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success:function(data){
-                const token =localStorage.removeItem("token")
-                window.location.href=$data.redirect
-            }
-        })
-    })
 });

@@ -49,15 +49,9 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script>
-    $(document).ready(function () {
-        $("#logout").on('click',function(e){
-            e.preventDefault()
-            console.log("logout");
-            localStorage.removeItem("token")
-             $("#logout").closest("form").submit()
-        })
-    });
-</script>
-@stack('scripts')
+
+    <script src="{{asset("js/token.js")}}"></script>
+    <script src="{{asset("js/task.js")}}"></script>
+
+    @stack('scripts')
 </html>

@@ -3,7 +3,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form>
+    <form id="loginForm">
         @csrf
 
         <!-- Email Address -->
@@ -40,7 +40,7 @@
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <x-primary-button class="ms-3" id="login">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>

@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware("auth:api")->group(function(){
+
     Route::apiResource('user',UserController::class)->names("user");
-    Route::apiResource('task',TaskController::class)->names("task");
-});
+    Route::apiResource('task',TaskController::class)->names("task")->middleware('auth:api');    
+

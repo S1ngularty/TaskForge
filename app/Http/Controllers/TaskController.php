@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class TaskController extends Controller
 {
@@ -27,21 +29,32 @@ class TaskController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
 
-        $task = new Task();
-    // Manually assign attributes
-    $task->name = $request['name'];
+    // return response()->json(auth('api')->user());
+    $user= auth('api')->user();
+    
+    $task = new Task();
+    $task->user_id = $user->user_id;
+    $task->title = $request['title'];
     $task->occurence = $request['occurence'];
-    $task->user_id=auth()->user()->id();
-    $task->description="dasdsa";
 
-        if(!$task){
-            return response()->json(['status'=>500,'message'=>'failed to store','data'=>$task]);
-        }
+    $task->description = "dasdsa";
+    $task->save();  
 
-        return response()->json(array('status'=>201,'message'=>'successfully store','data'=>$request->all()));
-    }
+    // $user = auth('api')->user(); // ✅ get authenticated user
+    // if (!$user) {
+    //     return response()->json(['message' => 'Unauthenticated'], 401);
+    // }
+    // dd($user);
+
+
+    return response()->json([
+        'status' => 201,
+        'message' => 'successfully stored',
+        'data' => $task
+    ]);
+}
 
     /**
      * Display the specified resource.

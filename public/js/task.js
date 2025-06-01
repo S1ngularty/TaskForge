@@ -6,7 +6,7 @@ function modalReset(){
 
 $(document).ready(function () {
     console.log("ready")
-    $("#taskModal").on("submit",function(e){
+    $("#createTaskbtn").on("click",function(e){
         e.preventDefault()
         console.log("sdadad")
         const formData= new FormData($("#taskForm")[0])
@@ -19,12 +19,12 @@ $(document).ready(function () {
             url: "/api/task",
             data: formData,
             dataType: "json",
-            headers:{
-                "Cached-Control":"no-cached",
-                "Authorization" :"Bearer " + token
-            },
             processData:false,
             contentType:false,
+            headers:{
+                'Cache-Control':'no-cached',
+                'Authorization' :"Bearer " + token
+            },
             success: function (response) {
                 modalReset()
                 console.log(response)
