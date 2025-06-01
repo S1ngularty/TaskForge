@@ -52,6 +52,14 @@
 
     <script src="{{asset("js/token.js")}}"></script>
     <script src="{{asset("js/task.js")}}"></script>
-
+    <script>
+        $(document).ready(function () {
+            $("#logout").click(function (e) { 
+                e.preventDefault();
+                localStorage.removeItem("token")
+                this.closest("form").submit()
+            });
+        });
+    </script>
     @stack('scripts')
 </html>

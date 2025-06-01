@@ -42,12 +42,6 @@ class TaskController extends Controller
     $task->description = "dasdsa";
     $task->save();  
 
-    // $user = auth('api')->user(); // ✅ get authenticated user
-    // if (!$user) {
-    //     return response()->json(['message' => 'Unauthenticated'], 401);
-    // }
-    // dd($user);
-
 
     return response()->json([
         'status' => 201,
