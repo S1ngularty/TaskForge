@@ -51,8 +51,8 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <script src="{{asset("js/token.js")}}"></script>
-    <script src="{{asset("js/task.js")}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/front_method.js')}}"></script>
 
     <script>
         $(document).ready(function () {

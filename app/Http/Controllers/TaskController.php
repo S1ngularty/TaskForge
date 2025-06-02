@@ -15,8 +15,12 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task= Task::withWhereHas('user')->get();
-        return response()->json($task);
+        $tasks = Task::whereHas('user', function ($query) {
+        $query->where('user_id', auth('api')->user()->user_id);
+    })->get();
+
+return response()->json($tasks);
+
     }
 
     /**
@@ -40,8 +44,7 @@ class TaskController extends Controller
     $task->user_id = $user->user_id;
     $task->title = $request['title'];
     $task->occurence = $request['occurence'];
-
-    $task->description = "dasdsa";
+    $task->description=$request['description'];
     $task->save();  
 
 

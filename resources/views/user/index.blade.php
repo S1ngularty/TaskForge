@@ -5,16 +5,20 @@
         </h2>
   </x-slot>
 
-  <div class="flex justify-start max-h-full">
+  <div class="flex justify-start flex-row max-h-full">
 <x-section id="task-section">   
 
-   </x-section>
-  </div>
-<!-- Button to Open the Modal -->
-<!-- Open Button -->
+</x-section>
+
+<x-section id="task-done">   
 <button onclick="document.getElementById('taskModal').classList.remove('hidden')" class="bg-blue-600 text-white px-4 py-2 rounded">
     Launch Modal
 </button>
+</x-section>
+  </div>
+
+<!-- Open Button -->
+
 
 <!-- Modal Component -->
 <x-modal id="taskModal" title="Welcome!" form="taskForm">
@@ -34,6 +38,9 @@ label="Occurence"
 selected="daily"
 >
 </x-select>
+<x-text-box name="description" label="Description">
+</x-text-box>
+
   </form>
 </x-modal>
 </x-app-layout>
