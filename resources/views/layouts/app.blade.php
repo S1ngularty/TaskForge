@@ -52,6 +52,7 @@
 
     <script src="{{asset("js/token.js")}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/request.js')}}"></script>
     <script src="{{asset('js/front_method.js')}}"></script>
 
     <script>

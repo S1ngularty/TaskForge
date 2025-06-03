@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token");
+
 function sectionCard(response) {
     const section = $("#task-section");
     response.forEach((task) => {

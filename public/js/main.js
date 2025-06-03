@@ -1,23 +1,18 @@
+const token = localStorage.getItem("token");
+
 $(document).ready(function () {
     console.log("main");
-    $.ajax({
-        method: "GET",
-        url: "/api/task",
-        dataType: "json",
-        headers: {
-            "Cache-Control": "no-cache",
-            Authorization: "Bearer " + token,
+    const indexTask = new Request("/api", "/task", token);
+    // indexTask.debug();
+    indexTask.getAll(
+        function (data) {
+            console.log("success");
+                sectionCard(data);
         },
-        success: function (response) {
-            console.log(response);
-            sectionCard(response);
-        },
-        error: function (response) {
-            console.log(response);
-        },
-    });
+        () => console.log("couldnt fethc the data from the database")
+    );
 
-     $("#createTaskbtn").on("click", function (e) {
+    $("#createTaskbtn").on("click", function (e) {
         e.preventDefault();
         console.log("sdadad");
         const formData = new FormData($("#taskForm")[0]);
