@@ -3,13 +3,12 @@ const token = localStorage.getItem("token");
 $(document).ready(function () {
     console.log("main");
     const indexTask = new Request("/api", "/task", token);
-    // indexTask.debug();
     indexTask.getAll(
         function (data) {
             console.log("success");
-                sectionCard(data);
+            sectionCard(data);
         },
-        () => console.log("couldnt fethc the data from the database")
+        () => console.log("couldnt fetch the data from the database!")
     );
 
     $("#createTaskbtn").on("click", function (e) {
@@ -20,24 +19,14 @@ $(document).ready(function () {
             console.log(`${pair[0]}=>${pair[1]}`);
         }
         console.log(token);
-        $.ajax({
-            type: "POST",
-            url: "/api/task",
-            data: formData,
-            dataType: "json",
-            processData: false,
-            contentType: false,
-            headers: {
-                "Cache-Control": "no-cached",
-                Authorization: "Bearer " + token,
-            },
-            success: function (response) {
+        const create = new Request("/api", "task", token);
+        create.create(
+            formData,
+            () => {
                 modalReset();
-                console.log(response);
+                console.log("success");
             },
-            error: function (response) {
-                console.log(response);
-            },
-        });
+            () => console.log("failed to create the task, please try again!")
+        );
     });
 });

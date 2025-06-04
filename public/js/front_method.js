@@ -4,7 +4,7 @@ function sectionCard(response) {
     response.forEach((task) => {
         section.append(
             `<div class="w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
-                    <div class="flex items-center justify-evenly gap-10 p-4">
+                    <div class="flex items-center justify-evenly gap-5 p-4">
                         <div class="flex items-center justify-center">
                             <input type="checkbox" data-id="${
                                 task.task_id
