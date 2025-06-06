@@ -1,5 +1,5 @@
 function sectionCard(response) {
-    return  `<div class="w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
+    return  `<div class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
             <div class="flex items-center justify-evenly gap-5 p-4">
                 <div class="flex flex-col gap-4">
                 <div class="flex items-center justify-center">

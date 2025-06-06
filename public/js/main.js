@@ -88,15 +88,20 @@ $(document).ready(function () {
 
     $(document).on("click", "#taskDelete", function (e) {
         e.preventDefault();
-        const id = $(event.target).closest("button").data("id");
-        console.log(id)
+        const id = $(e.target).closest("button").data("id");
+        // console.log(id)
         const taskDelete = new Request("/api", "task", token);
-        taskDelete .delete(
+        taskDelete.delete(
             id,
-            function (response){
-                console.log(response)
+            function (response) {
+                console.log(response);
+                const target = $(e.target).closest(".parentCard");
+                // console.log(target)
+                target.fadeOut("slow", function () {
+                    target.remove();
+                });
             },
-            response => console.error(response)
+            (response) => console.error(response)
         );
     });
 });
