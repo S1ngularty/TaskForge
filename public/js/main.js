@@ -5,7 +5,10 @@ $(document).ready(function () {
     const indexTask = new Request("/api", "/task", token);
     indexTask.getAll(
         function (data) {
-            sectionCard(data);
+            const section=$("#task-section")
+            data.forEach((data) => {
+                section.append(sectionCard(data));
+            });
         },
         () => console.log("couldnt fetch the data from the database!")
     );
@@ -13,7 +16,7 @@ $(document).ready(function () {
     $("#createTaskbtn").click(function (e) {
         e.preventDefault();
         const formData = new FormData($("#taskForm")[0]);
-        formData.append('_method', 'PUT');
+        formData.append("_method", "PUT");
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}=>${pair[1]}`);
         }
@@ -38,7 +41,10 @@ $(document).ready(function () {
                 formData,
                 function (response) {
                     modalReset();
-                    console.log(response);
+                     console.log(response);
+                     $("#task-section").prepend(sectionCard(response))
+                    
+                   
                 },
                 () =>
                     console.log("failed to update the task, please try again!")
@@ -46,37 +52,44 @@ $(document).ready(function () {
         }
     });
 
-    $("#task-section").on("click", "#taskUpdate", function (e) {
-        console.log("clicked");
-        const infoShow = new Request("/api", "task", token);
-        const id = $(event.target).closest("button").data("id");
-        console.log(id);
-        infoShow.getById(
-            id,
-            function (response) {
-                console.log("success", response);
-                const modal = document.getElementById("taskModal");
-                modal.querySelector("#taskForm").appendChild(idField(id));
-                modal.classList.remove("hidden");
-                modal.querySelector("#createTaskbtn").dataset.action = "update";
-                modal.querySelector(".title").textContent = "Update your task";
-                modal
-                    .querySelector("#title")
-                    .setAttribute("value", `${response.title}`);
-                modal
-                    .querySelector("#occurence")
-                    .querySelector(
-                        `option[value=${response.occurence}]`
-                    ).selected = true;
-                modal.querySelector(
-                    "#description"
-                ).textContent = `${response.description}`;
-            },
-            (response) =>
-                console.log(
-                    "failed to retrieve the task information, please try again later!",
-                    response
-                )
-        );
-    });
+
+
+    $(document)
+        .off("click")
+        .on("click", "#taskUpdate", function (e) {
+            e.preventDefault()
+            console.log("clicked");
+            const infoShow = new Request("/api", "task", token);
+            const id = $(event.target).closest("button").data("id");
+            console.log(id);
+            infoShow.getById(
+                id,
+                function (response) {
+                    console.log("success", response);
+                    const modal = document.getElementById("taskModal");
+                    modal.querySelector("#taskForm").appendChild(idField(id));
+                    modal.classList.remove("hidden");
+                    modal.querySelector("#createTaskbtn").dataset.action =
+                        "update";
+                    modal.querySelector(".title").textContent =
+                        "Update your task";
+                    modal
+                        .querySelector("#title")
+                        .value=response.title
+                    modal
+                        .querySelector("#occurence")
+                        .querySelector(
+                            `option[value=${response.occurence}]`
+                        ).selected = true;
+                    modal.querySelector(
+                        "#description"
+                    ).textContent = response.description;
+                },
+                (response) =>
+                    console.log(
+                        "failed to retrieve the task information, please try again later!",
+                        response
+                    )
+            );
+        });
 });

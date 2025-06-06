@@ -83,7 +83,7 @@ return response()->json($tasks);
         $task->description=$request->description;
         $task->save();
 
-        return response()->json("success");
+        return response()->json($request->all());
         
     }
 
