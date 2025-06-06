@@ -92,6 +92,9 @@ return response()->json($tasks);
      */
     public function destroy(Task $task)
     {
-        //
+        if($task->delete()){
+            return response()->json("success!");
+        }
+        return response()->json("failed to delete the task, please atry again.");
     }
 }

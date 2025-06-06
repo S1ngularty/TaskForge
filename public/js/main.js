@@ -5,7 +5,7 @@ $(document).ready(function () {
     const indexTask = new Request("/api", "/task", token);
     indexTask.getAll(
         function (data) {
-            const section=$("#task-section")
+            const section = $("#task-section");
             data.forEach((data) => {
                 section.append(sectionCard(data));
             });
@@ -41,10 +41,8 @@ $(document).ready(function () {
                 formData,
                 function (response) {
                     modalReset();
-                     console.log(response);
-                     $("#task-section").prepend(sectionCard(response))
-                    
-                   
+                    console.log(response);
+                    $("#task-section").prepend(sectionCard(response));
                 },
                 () =>
                     console.log("failed to update the task, please try again!")
@@ -52,12 +50,10 @@ $(document).ready(function () {
         }
     });
 
-
-
     $(document)
         .off("click")
         .on("click", "#taskUpdate", function (e) {
-            e.preventDefault()
+            e.preventDefault();
             console.log("clicked");
             const infoShow = new Request("/api", "task", token);
             const id = $(event.target).closest("button").data("id");
@@ -73,17 +69,14 @@ $(document).ready(function () {
                         "update";
                     modal.querySelector(".title").textContent =
                         "Update your task";
-                    modal
-                        .querySelector("#title")
-                        .value=response.title
+                    modal.querySelector("#title").value = response.title;
                     modal
                         .querySelector("#occurence")
                         .querySelector(
                             `option[value=${response.occurence}]`
                         ).selected = true;
-                    modal.querySelector(
-                        "#description"
-                    ).textContent = response.description;
+                    modal.querySelector("#description").textContent =
+                        response.description;
                 },
                 (response) =>
                     console.log(
@@ -92,4 +85,18 @@ $(document).ready(function () {
                     )
             );
         });
+
+    $(document).on("click", "#taskDelete", function (e) {
+        e.preventDefault();
+        const id = $(event.target).closest("button").data("id");
+        console.log(id)
+        const taskDelete = new Request("/api", "task", token);
+        taskDelete .delete(
+            id,
+            function (response){
+                console.log(response)
+            },
+            response => console.error(response)
+        );
+    });
 });
