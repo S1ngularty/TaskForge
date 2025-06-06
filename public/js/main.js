@@ -10,35 +10,55 @@ $(document).ready(function () {
         () => console.log("couldnt fetch the data from the database!")
     );
 
-    $("#createTaskbtn").on("click", function (e) {
+    $("#createTaskbtn").click(function (e) {
         e.preventDefault();
         const formData = new FormData($("#taskForm")[0]);
+        formData.append('_method', 'PUT');
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}=>${pair[1]}`);
         }
-        console.log(token);
-        const create = new Request("/api", "task", token);
-        create.create(
-            formData,
-            () => {
-                modalReset();
-                console.log("success");
-            },
-            () => console.log("failed to create the task, please try again!")
-        );
+        const task = new Request("/api", "task", token);
+        if ($("#createTaskbtn").data("action") == "create") {
+            task.create(
+                formData,
+                () => {
+                    modalReset();
+                    console.log("success");
+                },
+                () =>
+                    console.log("failed to create the task, please try again!")
+            );
+        } else {
+            const id = document
+                .querySelector("#taskForm #task_id")
+                .getAttribute("value");
+            console.log(id);
+            task.update(
+                id,
+                formData,
+                function (response) {
+                    modalReset();
+                    console.log(response);
+                },
+                () =>
+                    console.log("failed to update the task, please try again!")
+            );
+        }
     });
 
-    $("#task-section").on("click", "#taskUpdate, #taskDelete", function (e) {
+    $("#task-section").on("click", "#taskUpdate", function (e) {
         console.log("clicked");
         const infoShow = new Request("/api", "task", token);
-        const id = $(event.target).closest("button").data("id")
+        const id = $(event.target).closest("button").data("id");
         console.log(id);
         infoShow.getById(
             id,
             function (response) {
                 console.log("success", response);
                 const modal = document.getElementById("taskModal");
+                modal.querySelector("#taskForm").appendChild(idField(id));
                 modal.classList.remove("hidden");
+                modal.querySelector("#createTaskbtn").dataset.action = "update";
                 modal.querySelector(".title").textContent = "Update your task";
                 modal
                     .querySelector("#title")
@@ -48,7 +68,9 @@ $(document).ready(function () {
                     .querySelector(
                         `option[value=${response.occurence}]`
                     ).selected = true;
-                modal.querySelector("#description").textContent=`${response.description}`
+                modal.querySelector(
+                    "#description"
+                ).textContent = `${response.description}`;
             },
             (response) =>
                 console.log(

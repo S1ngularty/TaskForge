@@ -22,7 +22,7 @@
 
 <!-- Modal Component -->
 <x-modal id="taskModal" title="Welcome!" form="taskForm">
-  <form id="taskForm" action="{{route('task.store')}}" method="POST">
+  <form id="taskForm"  method="POST">
     @csrf
      <x-input
     name="title"

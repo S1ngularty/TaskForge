@@ -6,17 +6,17 @@ function sectionCard(response) {
                     <div class="flex items-center justify-evenly gap-5 p-4">
                        <div class="flex flex-col gap-4">
                         <div class="flex items-center justify-center">
-                            <input type="checkbox" data-id="${
+                            <input type="checkbox" data-action="completeTask" data-id="${
                                 task.task_id
                             }" class="w-8 h-8 rounded-md border-gray-300 accent-blue-600 transition-all duration-200 ease-in-out checked:scale-110 hover:scale-105 cursor-pointer border-2" />
                         </div>
                         <div class="flex items-center justify-center">
-                            <button id="taskUpdate" data-id="${
+                            <button id="taskUpdate" data-action="update" data-id="${
                                 task.task_id
                             }" class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-pencil"></i></button>
                         </div>
                         <div class="flex items-center justify-center">
-                            <button id="taskDelete" data-id="${
+                            <button id="taskDelete" data-action="delete" data-id="${
                                 task.task_id
                             }" class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-trash"></i></button>
                         </div>
@@ -42,4 +42,11 @@ function modalReset() {
     $("#taskModal").hide().trigger("reset");
 }
 
-
+function idField(id) {
+    const idField = document.createElement("input");
+    idField.setAttribute("value", id);
+    idField.setAttribute("type", "hidden");
+    idField.name = "task_id";
+    idField.id = "task_id";
+    return idField;
+}
