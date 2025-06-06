@@ -1,4 +1,3 @@
-
 function sectionCard(response) {
     const section = $("#task-section");
     response.forEach((task) => {
@@ -12,10 +11,14 @@ function sectionCard(response) {
                             }" class="w-8 h-8 rounded-md border-gray-300 accent-blue-600 transition-all duration-200 ease-in-out checked:scale-110 hover:scale-105 cursor-pointer border-2" />
                         </div>
                         <div class="flex items-center justify-center">
-                            <button  class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-pencil"></i></button>
+                            <button id="taskUpdate" data-id="${
+                                task.task_id
+                            }" class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-pencil"></i></button>
                         </div>
                         <div class="flex items-center justify-center">
-                            <button  class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-trash"></i></button>
+                            <button id="taskDelete" data-id="${
+                                task.task_id
+                            }" class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-trash"></i></button>
                         </div>
                        </div>
                         <div class="flex flex-col">
@@ -38,3 +41,5 @@ function sectionCard(response) {
 function modalReset() {
     $("#taskModal").hide().trigger("reset");
 }
+
+

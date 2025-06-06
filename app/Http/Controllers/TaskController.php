@@ -60,7 +60,7 @@ return response()->json($tasks);
      */
     public function show(Task $task)
     {
-        //
+         return response()->json($task);
     }
 
     /**

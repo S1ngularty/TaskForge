@@ -15,7 +15,7 @@
 
         <!-- Header -->
         @if($title)
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ $title }}</h2>
+            <h2 class="title text-2xl font-semibold text-gray-800 mb-4">{{ $title }}</h2>
         @endif
 
         <!-- Content -->

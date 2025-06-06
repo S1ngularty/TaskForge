@@ -30,7 +30,7 @@ class Request {
     getById(Id, success, error) {
         $.ajax({
             method: "GET",
-            url: `${this.baseURL}/${this.resource}/${this.token}/${Id}`,
+            url: `${this.baseURL}/${this.resource}/${Id}`,
             headers: this.__getHeaders(),
             dataType: "json",
             success,

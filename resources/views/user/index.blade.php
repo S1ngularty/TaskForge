@@ -7,7 +7,7 @@
 
   <div class="flex justify-start flex-row max-h-full">
 <x-section id="task-section">   
-  
+
 </x-section>
 
 <x-section id="task-done">   
@@ -44,3 +44,4 @@ selected="daily"
   </form>
 </x-modal>
 </x-app-layout>
+
