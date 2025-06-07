@@ -14,7 +14,8 @@ class Task extends Model
         'user_id',
         'title',
         'description',
-        'occurence'
+        'occurence',
+        'is_complete'
     ];
 
     public function user(){

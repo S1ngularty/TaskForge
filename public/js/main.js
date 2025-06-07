@@ -1,7 +1,5 @@
 const token = localStorage.getItem("token");
 
-
-
 $(document).ready(function () {
     // retrieve task data
     const indexTask = new Request("/api", "/task", token);
@@ -28,8 +26,8 @@ $(document).ready(function () {
                 function (response) {
                     console.log("success", response);
                     const modal = document.getElementById("taskModal");
-                    modal.querySelector("#taskForm").appendChild(idField(id));
                     modal.classList.remove("hidden");
+                    modal.querySelector("#task_id").value= id
                     modal.querySelector("#createTaskbtn").dataset.action =
                         "update";
                     modal.querySelector(".title").textContent =
@@ -51,8 +49,7 @@ $(document).ready(function () {
             );
         });
 
-
-        // delete function
+    // delete function
     $(document).on("click", "#taskDelete", function (e) {
         e.preventDefault();
         const id = $(e.target).closest("button").data("id");
@@ -74,6 +71,7 @@ $(document).ready(function () {
     $("#createTaskbtn").click(function (e) {
         e.preventDefault();
         const formData = new FormData($("#taskForm")[0]);
+        formData.append("update", true);
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}=>${pair[1]}`);
         }
@@ -104,12 +102,10 @@ $(document).ready(function () {
                     console.log(response);
                     removeCard($("#task-section").find(`#${id}`));
                     $("#task-section").prepend(sectionCard(response));
-
                 },
                 () =>
                     console.log("failed to update the task, please try again!")
             );
         }
     });
-
 });

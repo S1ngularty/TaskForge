@@ -34,7 +34,7 @@ function sectionCard(response) {
 }
 
 function modalReset() {
-    $("#taskModal").trigger("reset");
+    $("#taskForm").trigger("reset");
     $("#taskModal").addClass("hidden");
 }
 

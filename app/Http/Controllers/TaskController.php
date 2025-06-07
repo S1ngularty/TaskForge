@@ -77,13 +77,18 @@ return response()->json($tasks);
     public function update(Request $request, Task $task)
     {
         // return response()->json($request->all());
-        $task=Task::find($request->task_id);
+        if($request->update==true){
         $task->title=$request->title;
         $task->occurence=$request->occurence;
         $task->description=$request->description;
         $task->save();
 
         return response()->json($request->all());
+        }else{
+            $task->is_complete=1;
+            $task->save();
+            return response()->json("task completed!");
+        }
         
     }
 

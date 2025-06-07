@@ -56,6 +56,7 @@
     <script src="{{asset('js/main.js')}}"></script>
     <script src="{{asset('js/request.js')}}"></script>
     <script src="{{asset('js/front_method.js')}}"></script>
+    <script src="{{asset('js/task.js')}}"></script>
 
     <script>
         $(document).ready(function () {

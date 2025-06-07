@@ -41,6 +41,12 @@ selected="daily"
 <x-text-box name="description" label="Description">
 </x-text-box>
 
+   <x-input
+    name="task_id"
+    type="hidden"
+    required
+/>
+
   </form>
 </x-modal>
 </x-app-layout>
