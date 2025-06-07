@@ -1,5 +1,5 @@
 function sectionCard(response) {
-    return  `<div class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
+    return `<div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
             <div class="flex items-center justify-evenly gap-5 p-4">
                 <div class="flex flex-col gap-4">
                 <div class="flex items-center justify-center">
@@ -30,11 +30,11 @@ function sectionCard(response) {
                     }</p>
                 </div>
             </div>
-        </div>`
+        </div>`;
 }
 
 function modalReset() {
-     $("#taskModal").trigger("reset");
+    $("#taskModal").trigger("reset");
     $("#taskModal").addClass("hidden");
 }
 
@@ -45,4 +45,10 @@ function idField(id) {
     idField.name = "task_id";
     idField.id = "task_id";
     return idField;
+}
+
+function removeCard(target) {
+    target.fadeOut("slow", function () {
+        target.remove();
+    });
 }

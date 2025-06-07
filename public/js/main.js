@@ -1,7 +1,9 @@
 const token = localStorage.getItem("token");
 
+
+
 $(document).ready(function () {
-    console.log("main");
+    // retrieve task data
     const indexTask = new Request("/api", "/task", token);
     indexTask.getAll(
         function (data) {
@@ -13,51 +15,14 @@ $(document).ready(function () {
         () => console.log("couldnt fetch the data from the database!")
     );
 
-    $("#createTaskbtn").click(function (e) {
-        e.preventDefault();
-        const formData = new FormData($("#taskForm")[0]);
-        formData.append("_method", "PUT");
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}=>${pair[1]}`);
-        }
-        const task = new Request("/api", "task", token);
-        if ($("#createTaskbtn").data("action") == "create") {
-            task.create(
-                formData,
-                () => {
-                    modalReset();
-                    console.log("success");
-                },
-                () =>
-                    console.log("failed to create the task, please try again!")
-            );
-        } else {
-            const id = document
-                .querySelector("#taskForm #task_id")
-                .getAttribute("value");
-            console.log(id);
-            task.update(
-                id,
-                formData,
-                function (response) {
-                    modalReset();
-                    console.log(response);
-                    $("#task-section").prepend(sectionCard(response));
-                },
-                () =>
-                    console.log("failed to update the task, please try again!")
-            );
-        }
-    });
-
+    // update function
     $(document)
         .off("click")
         .on("click", "#taskUpdate", function (e) {
             e.preventDefault();
             console.log("clicked");
             const infoShow = new Request("/api", "task", token);
-            const id = $(event.target).closest("button").data("id");
-            console.log(id);
+            const id = $(e.target).closest("button").data("id");
             infoShow.getById(
                 id,
                 function (response) {
@@ -86,22 +51,65 @@ $(document).ready(function () {
             );
         });
 
+
+        // delete function
     $(document).on("click", "#taskDelete", function (e) {
         e.preventDefault();
         const id = $(e.target).closest("button").data("id");
-        // console.log(id)
         const taskDelete = new Request("/api", "task", token);
         taskDelete.delete(
             id,
             function (response) {
                 console.log(response);
                 const target = $(e.target).closest(".parentCard");
+                console.log(target);
                 // console.log(target)
-                target.fadeOut("slow", function () {
-                    target.remove();
-                });
+                removeCard(target);
             },
             (response) => console.error(response)
         );
     });
+
+    // modal submit button
+    $("#createTaskbtn").click(function (e) {
+        e.preventDefault();
+        const formData = new FormData($("#taskForm")[0]);
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}=>${pair[1]}`);
+        }
+        const task = new Request("/api", "task", token);
+        if ($("#createTaskbtn").data("action") == "create") {
+            task.create(
+                formData,
+                function (response) {
+                    modalReset();
+                    console.log(response.data);
+                    $("#task-section").prepend(sectionCard(response.data));
+                },
+                () =>
+                    console.error(
+                        "failed to create the task, please try again!"
+                    )
+            );
+        } else {
+            const id = document
+                .querySelector("#taskForm #task_id")
+                .getAttribute("value");
+            formData.append("_method", "PUT");
+            task.update(
+                id,
+                formData,
+                function (response) {
+                    modalReset();
+                    console.log(response);
+                    removeCard($("#task-section").find(`#${id}`));
+                    $("#task-section").prepend(sectionCard(response));
+
+                },
+                () =>
+                    console.log("failed to update the task, please try again!")
+            );
+        }
+    });
+
 });

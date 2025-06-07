@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log("tangina")
     $("#login").on("click",function (e) {
         e.preventDefault()
         const formData=new FormData($("#loginForm")[0])
