@@ -76,13 +76,12 @@ return response()->json($tasks);
      */
     public function update(Request $request, Task $task)
     {
-        // return response()->json("reached");
-        if($request->update==true){
+        // return response()->json($request->all());
+        if($request->update=='true'){
         $task->title=$request->title;
         $task->occurence=$request->occurence;
         $task->description=$request->description;
         $task->save();
-
         return response()->json($request->all());
         }else{
             $task->is_complete=1;

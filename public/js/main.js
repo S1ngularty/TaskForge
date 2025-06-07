@@ -49,7 +49,7 @@ $(document).ready(function () {
             );
         });
 
-
+        // mark as completed 
         $(document).off("change").on("change","#completeTask",function(e){
             e.preventDefault()
             const target= $(e.target).data("id")
@@ -57,9 +57,9 @@ $(document).ready(function () {
             const request= new task("/api", "task", token)
             request.taskDone(
                 target,
-                function ()
+                function (response)
                 { 
-                    console.log("success");
+                    console.log(response);
                 },
                 response => console.error("failed to mark as completed you task, Please try again")
             )
@@ -87,7 +87,6 @@ $(document).ready(function () {
     $("#createTaskbtn").click(function (e) {
         e.preventDefault();
         const formData = new FormData($("#taskForm")[0]);
-        formData.append("update", true);
         for (let pair of formData.entries()) {
             console.log(`${pair[0]}=>${pair[1]}`);
         }
@@ -109,7 +108,8 @@ $(document).ready(function () {
             const id = document
                 .querySelector("#taskForm #task_id")
                 .getAttribute("value");
-            formData.append("_method", "PUT");
+                formData.append("update", true);
+                formData.append("_method", "PUT");
             task.update(
                 id,
                 formData,

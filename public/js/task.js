@@ -4,6 +4,7 @@ class task extends Request {
         const data = new FormData();
         data.append("task_id", id);
         data.append("update", false);
+        data.append("_method", "PUT");
         super.update(id, data, success, error);
     }
 }
