@@ -50,4 +50,30 @@ selected="daily"
   </form>
 </x-modal>
 </x-app-layout>
+<style>
+  .line-through-animate {
+  position: relative;
+  color: #1f2937; /* Tailwind's gray-800 */
+  cursor: pointer;
+  user-select: none;
+}
+
+.line-through-animate::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  background-color: currentColor;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+  transform: translateY(-50%);
+}
+
+/* This class triggers the animation */
+.line-through-animate.active::after {
+  width: 100%;
+}
+
+</style>
 

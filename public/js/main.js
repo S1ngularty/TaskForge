@@ -60,6 +60,7 @@ $(document).ready(function () {
                 function (response)
                 { 
                     console.log(response);
+                    taskDoneAnimation($(e.target).closest(".parentCard"))
                 },
                 response => console.error("failed to mark as completed you task, Please try again")
             )

@@ -19,9 +19,9 @@ function sectionCard(response) {
                 </div>
                 </div>
                 <div class="flex flex-col">
-                    <h5 class="text-lg font-semibold text-gray-800">${
+                    <h5 class="line-through-animate text-lg font-semibold text-gray-800" ><center>${
                         response.title
-                    }</h5>
+                    }</center></h5>
                     <p class="text-green-600 font-semibold text-xl mt-1">${
                         response.occurence ?? "N/A"
                     }</p>
@@ -53,4 +53,15 @@ function removeCard(target) {
     target.fadeOut("slow", function () {
         target.remove();
     });
+}
+
+function taskDoneAnimation (elem){
+    $(elem).find(".line-through-animate").toggleClass("active")
+   setTimeout(()=>{
+     $(elem).fadeOut("slow",function(){
+        $(elem).remove();
+    }),
+    1000
+   })
+
 }

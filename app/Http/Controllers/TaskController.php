@@ -16,7 +16,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::whereHas('user', function ($query) {
-        $query->where('user_id', auth('api')->user()->user_id);
+        $query->where('user_id', auth('api')->user()->user_id)
+        ->where('is_complete',0);
     })->get();
 
 return response()->json($tasks);
