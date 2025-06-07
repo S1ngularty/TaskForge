@@ -3,7 +3,7 @@ function sectionCard(response) {
             <div class="flex items-center justify-evenly gap-5 p-4">
                 <div class="flex flex-col gap-4">
                 <div class="flex items-center justify-center">
-                    <input type="checkbox" data-action="completeTask" data-id="${
+                    <input type="checkbox" id="completeTask" data-id="${
                         response.task_id
                     }" class="w-8 h-8 rounded-md border-gray-300 accent-blue-600 transition-all duration-200 ease-in-out checked:scale-110 hover:scale-105 cursor-pointer border-2" />
                 </div>

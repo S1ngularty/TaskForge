@@ -49,6 +49,22 @@ $(document).ready(function () {
             );
         });
 
+
+        $(document).off("change").on("change","#completeTask",function(e){
+            e.preventDefault()
+            const target= $(e.target).data("id")
+            console.log(target)
+            const request= new task("/api", "task", token)
+            request.taskDone(
+                target,
+                function ()
+                { 
+                    console.log("success");
+                },
+                response => console.error("failed to mark as completed you task, Please try again")
+            )
+        })
+
     // delete function
     $(document).on("click", "#taskDelete", function (e) {
         e.preventDefault();

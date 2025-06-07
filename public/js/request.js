@@ -54,7 +54,7 @@ class Request {
 
     update(Id, data, success, error) {
         $.ajax({ 
-            method: "POST",
+            method: "PUT",
             url: `${this.baseURL}/${this.resource}/${Id}`,
             headers: this.__getHeaders(),
             data:data,

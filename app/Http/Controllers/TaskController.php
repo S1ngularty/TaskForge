@@ -76,7 +76,7 @@ return response()->json($tasks);
      */
     public function update(Request $request, Task $task)
     {
-        // return response()->json($request->all());
+        // return response()->json("reached");
         if($request->update==true){
         $task->title=$request->title;
         $task->occurence=$request->occurence;
