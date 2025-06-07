@@ -38,7 +38,7 @@ $(document).ready(function () {
                         .querySelector(
                             `option[value=${response.occurence}]`
                         ).selected = true;
-                    modal.querySelector("#description").textContent =
+                    modal.querySelector("#description").value =
                         response.description;
                 },
                 (response) =>

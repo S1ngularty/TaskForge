@@ -34,7 +34,9 @@ function sectionCard(response) {
 }
 
 function modalReset() {
-    $("#taskForm").trigger("reset");
+    const form = $("#taskModal")
+    $('.title').text("Create a new task")
+    form.trigger("reset")
     $("#taskModal").addClass("hidden");
 }
 
