@@ -5,22 +5,35 @@
         </h2>
   </x-slot>
 
+<div class="flex flex-col max-h-full">
   <div class="flex justify-start flex-row max-h-full">
-<x-section id="task-section">   
-
-</x-section>
-
-<x-section id="task-completed">
-  
-</x-section>
-
-<x-section id="task-done">   
-<button onclick="document.getElementById('taskModal').classList.remove('hidden')" class="bg-blue-600 text-white px-4 py-2 rounded">
-    Launch Modal
-</button>
-</x-section>
-
+    <x-section>
+      <h4>Task</h4>
+    </x-section>
+    <x-section>
+      <h5>Completed</h5>
+    </x-section>
+    <x-section>
+      <h5>Status</h5>
+    </x-section>
   </div>
+
+  <div class="flex justify-start flex-row max-h-full">
+    <x-section id="task-section">   
+
+    </x-section>
+
+    <x-section id="task-completed">
+      
+    </x-section>
+
+    <x-section id="task-done">   
+      <button onclick="document.getElementById('taskModal').classList.remove('hidden')" class="bg-blue-600 text-white px-4 py-2 rounded">
+          Launch Modal
+      </button>
+  </x-section>
+  </div>
+</div>
 
 <!-- Open Button -->
 

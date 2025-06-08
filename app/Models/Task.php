@@ -15,7 +15,9 @@ class Task extends Model
         'title',
         'description',
         'occurence',
-        'is_complete'
+        'is_complete',
+        'timesCompleted',
+        'timesMissed'
     ];
 
     public function user(){
