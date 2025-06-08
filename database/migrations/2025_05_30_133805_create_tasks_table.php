@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string("title")->unique();
             $table->text("description")->nullable();
             $table->enum("occurence",['daily','weekly','monthly','yearly']);
-            $table->tinyInteger("is_complete")->default("0");
             $table->bigInteger("timesCompleted")->nullable();
             $table->bigInteger("timesMissed")->nullable();
             $table->timestamps();
