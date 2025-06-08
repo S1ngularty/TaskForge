@@ -79,7 +79,7 @@ return response()->json($tasks);
      */
     public function update(Request $request, Task $task)
     {
-        // return response()->json($request->all());
+        // return response()->json($task->task_id);
         if($request->update=='true'){
         $task->title=$request->title;
         $task->occurence=$request->occurence;
@@ -87,9 +87,12 @@ return response()->json($tasks);
         $task->save();
         return response()->json($request->all());
         }else{
-            $task->is_complete=1;
-            $task->save();
-            return response()->json("task completed!");
+            $taskDone= task_status::where('task_id',$task->task_id)->first();
+            $taskDone->is_complete=1;
+            if($taskDone->save()){
+                 return response()->json("task completed!");
+            }
+           
         }
         
     }

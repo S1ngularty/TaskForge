@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('task_status', function (Blueprint $table) {
+            $table->id("ts_id");
             $table->unsignedBigInteger("task_id");
             $table->tinyInteger("is_complete")->default(0);
             $table->date("task_start");

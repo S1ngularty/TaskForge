@@ -62,7 +62,7 @@ $(document).ready(function () {
                     console.log(response);
                     taskDoneAnimation($(e.target).closest(".parentCard"))
                 },
-                response => console.error("failed to mark as completed you task, Please try again")
+                response => console.error("failed to mark as completed your task, please try again")
             )
         })
 
