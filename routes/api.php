@@ -11,5 +11,8 @@ Route::get('/user', function (Request $request) {
 
 
     Route::apiResource('user',UserController::class)->names("user");
-    Route::apiResource('task',TaskController::class)->names("task")->middleware('auth:api');    
+    Route::middleware("auth:api")->group(function(){
+        Route::get("task/sys_update",[TaskController::class,"sys_update"])->name("task.sys_update");
+        Route::apiResource('task',TaskController::class)->names("task");
+    });  
 

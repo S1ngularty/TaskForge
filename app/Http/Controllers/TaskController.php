@@ -107,4 +107,37 @@ return response()->json($tasks);
         }
         return response()->json("failed to delete the task, please atry again.");
     }
+
+    public function sys_update(){
+        // return response()->json("reached");
+        $tasks=task_status::withwhereHas('task')->get();
+        // return response()->json($tasks);
+        $curdate= date("Y-m-d");
+       foreach($tasks as $task){
+         if(date($curdate)>date($task->task_end)){
+            $newTask=new task_status();
+            $newTask->task_id = $task->task_id;
+            $newTask->task_start = $curdate;
+            $newTask->task_end= $this->occurrence($task->task->occurence,$curdate);
+            if($newTask->save()){
+                return response ()->json("system is up to date");
+            }else{
+                return response()->json("failed to update your system");
+            }
+        }
+       }
+    }
+
+     private function occurrence($occ,$newDate){
+        switch($occ){
+            case "daily":
+                return date("Y-m-d",strtotime("$newDate +1 day"));
+            case "weekly":
+                 return date("Y-m-d",strtotime("$newDate +1 week"));
+            case "monthly":
+                return date("Y-m-d",strtotime("$newDate +1 month"));
+            case "yearly":
+                return date("Y-m-d",strtotime("$newDate +1 year"));
+        }
+    }
 }
