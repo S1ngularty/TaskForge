@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Models\task_status;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -16,8 +17,9 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::whereHas('user', function ($query) {
-        $query->where('user_id', auth('api')->user()->user_id)
-        ->where('is_complete',0);
+        $query->where('user_id', auth('api')->user()->user_id);
+    })->whereHas('task_status',function($query){
+        $query->where('is_complete',0);
     })->get();
 
 return response()->json($tasks);
