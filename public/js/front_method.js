@@ -1,4 +1,6 @@
+
 function sectionCard(response) {
+    console.log(JSON.stringify(response.title))
     return `<div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
             <div class="flex items-center justify-evenly gap-5 p-4">
                 <div class="flex flex-col gap-4">
@@ -18,10 +20,10 @@ function sectionCard(response) {
                     }" class="w-8 h-8 rounded-md border-gray-300 hover:bg-gray-100 cursor-pointer border-2"><i class="fa fa-trash"></i></button>
                 </div>
                 </div>
-                <div class="flex flex-col">
-                    <h5 class="line-through-animate text-lg font-semibold text-gray-800" ><center>${
+                <div class="inline-block">
+                    <h5 class="line-through-animate inline-block text-lg font-semibold text-gray-800 m-0 p-0" >${
                         response.title
-                    }</center></h5>
+                    }</h5>
                     <p class="text-green-600 font-semibold text-xl mt-1">${
                         response.occurence ?? "N/A"
                     }</p>
@@ -34,6 +36,7 @@ function sectionCard(response) {
 }
 
 function modalReset() {
+    console.log("clicked")
     const form = $("#taskModal")
     $('.title').text("Create a new task")
     form.trigger("reset")

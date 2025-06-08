@@ -10,11 +10,16 @@
 
 </x-section>
 
+<x-section id="task-completed">
+  
+</x-section>
+
 <x-section id="task-done">   
 <button onclick="document.getElementById('taskModal').classList.remove('hidden')" class="bg-blue-600 text-white px-4 py-2 rounded">
     Launch Modal
 </button>
 </x-section>
+
   </div>
 
 <!-- Open Button -->
@@ -53,6 +58,7 @@ selected="daily"
 <style>
   .line-through-animate {
   position: relative;
+  display: inline-block;
   color: #1f2937; /* Tailwind's gray-800 */
   cursor: pointer;
   user-select: none;
