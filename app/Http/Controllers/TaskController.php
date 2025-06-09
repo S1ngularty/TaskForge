@@ -8,6 +8,7 @@ use App\Models\task_status;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -110,15 +111,21 @@ return response()->json($tasks);
 
     public function sys_update(){
         // return response()->json("reached");
-        $tasks=task_status::withwhereHas('task')->get();
+        $curdate=date("Y-m-d");
+        $tasks=task_status::whereHas('task',function($query) use($curdate){
+            $query->whereDate("task_end","<",$curdate)
+           ->where("recreate",0);
+        })->get();
         // return response()->json($tasks);
-        $curdate= date("Y-m-d");
        foreach($tasks as $task){
          if(date($curdate)>date($task->task_end)){
             $newTask=new task_status();
             $newTask->task_id = $task->task_id;
             $newTask->task_start = $curdate;
             $newTask->task_end= $this->occurrence($task->task->occurence,$curdate);
+            $recUpdate=DB::table('task_status')->where("task_id",$task->task_id)->update([
+                "recreate"=>1
+            ]);
             if($newTask->save()){
                 return response ()->json("system is up to date");
             }else{

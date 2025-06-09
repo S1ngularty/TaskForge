@@ -14,6 +14,7 @@ class task_status extends Model
     protected $fillable=[
         'task_id',
         'is_complete',
+        'recreate',
         'task_start',
         'task_end'
     ];

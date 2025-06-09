@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id("ts_id");
             $table->unsignedBigInteger("task_id");
             $table->tinyInteger("is_complete")->default(0);
+            $table->tinyInteger("recreate")->default(0);
             $table->date("task_start");
             $table->date("task_end");
 
