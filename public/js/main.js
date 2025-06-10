@@ -5,8 +5,11 @@ $(document).ready(function () {
     const indexTask = new Request("/api", "task", token);
     indexTask.getAll(
         function (data) {
+            
             const section = $("#task-section");
             data.forEach((data) => {
+                data.ts_id=data.task_status[0].ts_id;
+                console.log(data);
                 section.append(sectionCard(data));
             });
         },
@@ -133,7 +136,7 @@ $(document).ready(function () {
 
     const completedTask = new task("/api", "task/task_records",token);
     completedTask.getAll(function (response) {
-        console.log(response);
+        // console.log(response);
         const section = $("#task-completed");
         response.forEach((data) => {
             section.append(taskRecords(data));
