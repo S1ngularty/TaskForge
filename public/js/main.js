@@ -97,7 +97,7 @@ $(document).ready(function () {
                 formData,
                 function (response) {
                     modalReset();
-                    console.log(response.data);
+                    console.log(response);
                     $("#task-section").prepend(sectionCard(response.data));
                 },
                 () =>

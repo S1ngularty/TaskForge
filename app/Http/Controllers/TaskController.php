@@ -12,18 +12,27 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
+
+    private $currDate;
+
+    public function __construct()
+    {
+        $this->currDate=date("Y-m-d");
+    }
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
         $tasks = Task::whereHas('user', function ($query) {
         $query->where('user_id', auth('api')->user()->user_id);
     })->whereHas('task_status',function($query){
-        $query->where('is_complete',0);
+        $query->where('recreate',0);
     })->get();
 
-return response()->json($tasks);
+    return response()->json($tasks);
 
     }
 
@@ -49,14 +58,24 @@ return response()->json($tasks);
     $task->title = $request['title'];
     $task->occurence = $request['occurence'];
     $task->description=$request['description'];
-    $task->save();  
-
-
-    return response()->json([
-        'status' => 201,
-        'message' => 'successfully stored',
-        'data' => $task
-    ]);
+    $task->save();
+    // return response()->json($task);
+    if($task->save()){
+        $task->task_id=$task->task_id;
+        $stage= new task_status();
+        $stage->task_id=$task->task_id;
+        $stage->task_end=$this->occurrence($task->occurence,$this->currDate);
+        if($stage->save()){
+            return response()->json([
+                'status' => 201,
+                'message' => 'successfully stored',
+                'data' => $task,
+                'stage'=>$stage
+            ]);
+        }
+    }else{
+            return response()->json("failed to store and stage the file");
+        }  
 }
 
     /**
@@ -108,6 +127,8 @@ return response()->json($tasks);
         }
         return response()->json("failed to delete the task, please atry again.");
     }
+
+
 
     public function sys_update(){
         // return response()->json("reached");

@@ -62,7 +62,7 @@ selected="daily"
    <x-input
     name="task_id"
     type="hidden"
-    required
+    
 />
 
   </form>
