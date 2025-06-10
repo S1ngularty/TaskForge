@@ -30,6 +30,7 @@ class TaskController extends Controller
         $query->where('user_id', auth('api')->user()->user_id);
     })->whereHas('task_status',function($query){
         $query->where('recreate',0);
+        $query->where('is_complete',0);
     })->get();
 
     return response()->json($tasks);
@@ -167,5 +168,21 @@ class TaskController extends Controller
             case "yearly":
                 return date("Y-m-d",strtotime("$newDate +1 year"));
         }
+    }
+
+    public function TaskRecords(){
+
+      $result = Task::whereHas('user',function($query){
+         $query->where('user_id', auth('api')->user()->user_id);
+      })->select('task_id', 'title') // Always include id for relationships
+        ->withwhereHas('task_status', function($query) {
+        $query->select('task_id')
+              ->selectRaw('COUNT(*) as total')
+              ->groupBy('task_id');
+    })
+    ->get();
+
+return response()->json($result);
+
     }
 }

@@ -2,7 +2,7 @@ const token = localStorage.getItem("token");
 
 $(document).ready(function () {
     // retrieve task data
-    const indexTask = new Request("/api", "/task", token);
+    const indexTask = new Request("/api", "task", token);
     indexTask.getAll(
         function (data) {
             const section = $("#task-section");
@@ -27,7 +27,7 @@ $(document).ready(function () {
                     console.log("success", response);
                     const modal = document.getElementById("taskModal");
                     modal.classList.remove("hidden");
-                    modal.querySelector("#task_id").value= id
+                    modal.querySelector("#task_id").value = id;
                     modal.querySelector("#createTaskbtn").dataset.action =
                         "update";
                     modal.querySelector(".title").textContent =
@@ -49,22 +49,26 @@ $(document).ready(function () {
             );
         });
 
-        // mark as completed 
-        $(document).off("change").on("change","#completeTask",function(e){
-            e.preventDefault()
-            const target= $(e.target).data("id")
-            console.log(target)
-            const request= new task("/api", "task", token)
+    // mark as completed
+    $(document)
+        .off("change")
+        .on("change", "#completeTask", function (e) {
+            e.preventDefault();
+            const target = $(e.target).data("id");
+            console.log(target);
+            const request = new task("/api", "task", token);
             request.taskDone(
                 target,
-                function (response)
-                { 
+                function (response) {
                     console.log(response);
-                    taskDoneAnimation($(e.target).closest(".parentCard"))
+                    taskDoneAnimation($(e.target).closest(".parentCard"));
                 },
-                response => console.error("failed to mark as completed your task, please try again")
-            )
-        })
+                (response) =>
+                    console.error(
+                        "failed to mark as completed your task, please try again"
+                    )
+            );
+        });
 
     // delete function
     $(document).on("click", "#taskDelete", function (e) {
@@ -109,8 +113,8 @@ $(document).ready(function () {
             const id = document
                 .querySelector("#taskForm #task_id")
                 .getAttribute("value");
-                formData.append("update", true);
-                formData.append("_method", "PUT");
+            formData.append("update", true);
+            formData.append("_method", "PUT");
             task.update(
                 id,
                 formData,
@@ -124,5 +128,18 @@ $(document).ready(function () {
                     console.log("failed to update the task, please try again!")
             );
         }
+    });
+
+    const completedTask = new task("/api", "task/task_records",token);
+    completedTask.getAll(function (response) {
+        console.log(response);
+        const section = $("#task-completed");
+        response.forEach((data) => {
+            section.append(taskRecords(data));
+        }),
+            () =>
+                console.error(
+                    "failed to fetch the completed task, please try again"
+                );
     });
 });

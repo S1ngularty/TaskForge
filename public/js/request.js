@@ -19,7 +19,7 @@ class Request {
     getAll(success, error) {
         $.ajax({
             method: "GET",
-            url: `${this.baseURL}${this.resource}`,
+            url: `${this.baseURL}/${this.resource}`,
             headers: this.__getHeaders(),
             dataType: "json",
             success,

@@ -1,4 +1,4 @@
-
+// pending task card constructor
 function sectionCard(response) {
     return `<div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
             <div class="flex items-center justify-evenly gap-5 p-4">
@@ -34,6 +34,7 @@ function sectionCard(response) {
         </div>`;
 }
 
+// modal reset to its default (still not working properly)
 function modalReset() {
     console.log("clicked")
     const form = $("#taskModal")
@@ -42,6 +43,7 @@ function modalReset() {
     $("#taskModal").addClass("hidden");
 }
 
+// hidden field attribute manipulation
 function idField(id) {
     const idField = document.createElement("input");
     idField.setAttribute("value", id);
@@ -51,12 +53,14 @@ function idField(id) {
     return idField;
 }
 
+// remove card
 function removeCard(target) {
     target.fadeOut("slow", function () {
         target.remove();
     });
 }
 
+// task done animation
 function taskDoneAnimation (elem){
     $(elem).find(".line-through-animate").toggleClass("active")
    setTimeout(()=>{
@@ -66,4 +70,15 @@ function taskDoneAnimation (elem){
     1000
    })
 
+}
+
+function taskRecords(response){
+    return `<div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
+                <div class="flex items-center justify-evenly gap-5 p-4">
+                    <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-center">
+                       ${response.title}<br>${response.task_status[0].total}x
+                    </div>
+                </div>
+            </div>`;
 }
