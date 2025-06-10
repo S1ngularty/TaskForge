@@ -56,7 +56,7 @@ $(document).ready(function () {
             e.preventDefault();
             const target = $(e.target).data("id");
             console.log(target);
-            const request = new task("/api", "task", token);
+            const request = new task("/api", "task/taskDone", token);
             request.taskDone(
                 target,
                 function (response) {

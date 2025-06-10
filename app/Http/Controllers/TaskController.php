@@ -28,7 +28,8 @@ class TaskController extends Controller
     {
         $tasks = Task::whereHas('user', function ($query) {
         $query->where('user_id', auth('api')->user()->user_id);
-    })->whereHas('task_status',function($query){
+    })->withwhereHas('task_status',function($query){
+        $query->select('ts_id','task_id');
         $query->where('recreate',0);
         $query->where('is_complete',0);
     })->get();
@@ -107,15 +108,16 @@ class TaskController extends Controller
         $task->description=$request->description;
         $task->save();
         return response()->json($request->all());
-        }else{
-            $taskDone= task_status::where('task_id',$task->task_id)->first();
-            $taskDone->is_complete=1;
-            if($taskDone->save()){
-                 return response()->json("task completed!");
-            }
-           
         }
         
+    }
+
+    public function taskDone(Request $reques,$id){
+        $ts= task_status::find($id);
+        $ts->is_complete=1;
+         if($ts->save()){
+                 return response()->json("task completed!");
+            }
     }
 
     /**
@@ -178,7 +180,8 @@ class TaskController extends Controller
         ->withwhereHas('task_status', function($query) {
         $query->select('task_id')
               ->selectRaw('COUNT(*) as total')
-              ->groupBy('task_id');
+              ->groupBy('task_id')
+              ->where('is_complete',1);
     })
     ->get();
 
