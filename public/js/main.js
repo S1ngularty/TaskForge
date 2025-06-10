@@ -101,6 +101,7 @@ $(document).ready(function () {
                 formData,
                 function (response) {
                     modalReset();
+                    response.data.ts_id=response.stage.ts_id;
                     console.log(response);
                     $("#task-section").prepend(sectionCard(response.data));
                 },
