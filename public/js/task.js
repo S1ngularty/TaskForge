@@ -6,7 +6,5 @@ class task extends Request {
         super.update(id, data, success, error);
     }
 
-    getAll(success, error) {
-        super.getAll(success,error);
-    }
+   
 }
