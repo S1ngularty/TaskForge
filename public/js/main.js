@@ -147,8 +147,10 @@ $(document).ready(function () {
                 );
     });
 
-    fetch("http://192.168.1.11:4000/api/v1/item")
-    .then(response=>response.json())
-    .then(data=> console.log(data))
-    .catch(error=>console.log(error))
+    
+
+    // fetch("http://192.168.1.11:4000/api/v1/item")
+    // .then(response=>response.json())
+    // .then(data=> console.log(data))
+    // .catch(error=>console.log(error))
 });

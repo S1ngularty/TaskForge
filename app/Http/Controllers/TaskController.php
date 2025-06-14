@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Throwable;
 
 class TaskController extends Controller
 {
@@ -136,28 +138,39 @@ class TaskController extends Controller
 
     public function sys_update(){
         // return response()->json("reached");
+        
         $curdate=date("Y-m-d");
+      try{
         $tasks=task_status::whereHas('task',function($query) use($curdate){
-            $query->whereDate("task_end","<",$curdate)
-           ->where("recreate",0);
-        })->get();
-        // return response()->json($tasks);
-       foreach($tasks as $task){
-         if(date($curdate)>date($task->task_end)){
-            $newTask=new task_status();
-            $newTask->task_id = $task->task_id;
-            $newTask->task_start = $curdate;
-            $newTask->task_end= $this->occurrence($task->task->occurence,$curdate);
-            $recUpdate=DB::table('task_status')->where("task_id",$task->task_id)->update([
-                "recreate"=>1
-            ]);
-            if($newTask->save()){
-                return response ()->json("system is up to date");
-            }else{
-                return response()->json("failed to update your system");
+                $query->whereDate("task_end","<",$curdate)
+            ->where("recreate",0);
+            })->get();
+            // return response()->json($tasks);
+        foreach($tasks as $task){
+            if(date($curdate)>date($task->task_end)){
+                $newTask=new task_status();
+                $newTask->task_id = $task->task_id;
+                $newTask->task_start = $curdate;
+                $newTask->task_end= $this->occurrence($task->task->occurence,$curdate);
+                $recUpdate=DB::table('task_status')->where("task_id",$task->task_id)->update([
+                    "recreate"=>1
+                ]);
+                $newTask->save();  
             }
         }
-       }
+      }catch(Throwable $e){
+        if($e instanceof ModelNotFoundException){
+            return response()->json([
+              'success' => false,
+                'error_type' => get_class($e),     // Ex: Illuminate\Database\Eloquent\ModelNotFoundException
+                'message' => $e->getMessage(),     // Error message
+                'trace' => $e->getTrace(),         // Stack trace (array form)
+                'file' => $e->getFile(),           // File where error happened
+                'line' => $e->getLine(),    
+            ],500);
+        }
+      }
+      return response ()->json("system is up to date");
     }
 
      private function occurrence($occ,$newDate){

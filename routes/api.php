@@ -18,4 +18,3 @@ Route::get('/user', function (Request $request) {
         Route::apiResource('task',TaskController::class)->names("task");
     });  
 
-
