@@ -72,13 +72,33 @@ function taskDoneAnimation (elem){
 
 }
 
-function taskRecords(response){
-    return `<div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
-                <div class="flex items-center justify-evenly gap-5 p-4">
-                    <div class="flex flex-col gap-4">
-                    <div class="flex items-center justify-center">
-                       ${response.title}<br>${response.task_status[0].total}x
+function taskRecords(response) {
+    // Get completed & missed count from task_status
+    console.log(response);
+    const completed = response.task_status[0].total;
+    const missed = response.task_status[0].total;
+
+       return `
+        <div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4 p-4">
+            <div class="flex h-full items-center justify-between">
+                <!-- Left: Task Title -->
+                <div class="text-xl font-semibold text-gray-800">
+                    ${response.title}
+                </div>
+
+                <!-- Right: Status Section -->
+                <div class="flex flex-col items-end gap-2 text-sm">
+                    <div class="flex items-center gap-2">
+                        <div style="width: 10px; height: 10px; border-radius: 50%; background-color: #22c55e;"></div>
+                        <span class="text-gray-700">Completed: ${completed}x</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div style="width: 10px; height: 10px; border-radius: 50%; background-color: #ef4444;"></div>
+                        <span class="text-gray-700">Missed: ${missed}x</span>
                     </div>
                 </div>
-            </div>`;
+            </div>
+        </div>
+    `;
 }
+
