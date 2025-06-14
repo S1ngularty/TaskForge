@@ -75,8 +75,8 @@ function taskDoneAnimation (elem){
 function taskRecords(response) {
     // Get completed & missed count from task_status
     console.log(response);
-    const completed = response.task_status[0].total;
-    const missed = response.task_status[0].total;
+    const completed = response.completed;
+    const missed = response.missed;
 
        return `
         <div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4 p-4">

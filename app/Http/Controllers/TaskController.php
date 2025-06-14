@@ -191,14 +191,15 @@ class TaskController extends Controller
       $result = Task::whereHas('user',function($query){
          $query->where('user_id', auth('api')->user()->user_id);
       })->select('task_id', 'title') // Always include id for relationships
-        ->withwhereHas('task_status', function($query) {
-        $query->select('task_id')
-              ->selectRaw('COUNT(*) as total')
-              ->groupBy('task_id')
-              ->where('is_complete',1);
-    })
+        ->withCount([
+        'task_status as completed' => function ($query) {
+            $query->where('is_complete', 1);
+        },
+        'task_status as missed' => function ($query) {
+            $query->where('is_complete', 0);
+        }
+    ])
     ->get();
-
 return response()->json($result);
 
     }
