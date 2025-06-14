@@ -15,6 +15,7 @@ $(document).ready(function () {
         () => console.log("couldnt fetch the data from the database!")
     );
 
+    // update the task  depending on their data_end and occurence
     const taskRecord = new task("/api", "task/sys_update", token);
     taskRecord.getAll(
         (res) => console.log("sytem is up to date"),
@@ -63,6 +64,8 @@ $(document).ready(function () {
         .on("change", "#completeTask", function (e) {
             e.preventDefault();
             const target = $(e.target).data("id");
+            const task_id = $(e.target).closest(".parentCard").attr("id");
+            console.log(task_id);
             console.log(target);
             const request = new task("/api", "task/taskDone", token);
             request.taskDone(
@@ -70,6 +73,7 @@ $(document).ready(function () {
                 function (response) {
                     console.log(response);
                     taskDoneAnimation($(e.target).closest(".parentCard"));
+                    add_complete(task_id);
                 },
                 (response) =>
                     console.error(
@@ -139,6 +143,7 @@ $(document).ready(function () {
         }
     });
 
+    // get the task record count
     const completedTask = new task("/api", "task/task_records", token);
     completedTask.getAll(function (response) {
         // console.log(response);

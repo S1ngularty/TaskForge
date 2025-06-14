@@ -1,11 +1,13 @@
 // pending task card constructor
 function sectionCard(response) {
-    return `<div id="${response.task_id}"  class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
+    return `<div id="${
+        response.task_id
+    }"  class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4">
             <div class="flex items-center justify-evenly gap-5 p-4">
                 <div class="flex flex-col gap-4">
                 <div class="flex items-center justify-center">
                     <input type="checkbox" id="completeTask" data-id="${
-                       response.ts_id
+                        response.ts_id
                     }" class="w-8 h-8 rounded-md border-gray-300 accent-blue-600 transition-all duration-200 ease-in-out checked:scale-110 hover:scale-105 cursor-pointer border-2" />
                 </div>
                 <div class="flex items-center justify-center">
@@ -36,10 +38,10 @@ function sectionCard(response) {
 
 // modal reset to its default (still not working properly)
 function modalReset() {
-    console.log("clicked")
-    const form = $("#taskModal")
-    $('.title').text("Create a new task")
-    form.trigger("reset")
+    console.log("clicked");
+    const form = $("#taskModal");
+    $(".title").text("Create a new task");
+    form.trigger("reset");
     $("#taskModal").addClass("hidden");
 }
 
@@ -61,15 +63,14 @@ function removeCard(target) {
 }
 
 // task done animation
-function taskDoneAnimation (elem){
-    $(elem).find(".line-through-animate").toggleClass("active")
-   setTimeout(()=>{
-     $(elem).fadeOut("slow",function(){
-        $(elem).remove();
-    }),
-    1000
-   })
-
+function taskDoneAnimation(elem) {
+    $(elem).find(".line-through-animate").toggleClass("active");
+    setTimeout(() => {
+        $(elem).fadeOut("slow", function () {
+            $(elem).remove();
+        }),
+            1000;
+    });
 }
 
 // display the task record
@@ -78,7 +79,7 @@ function taskRecords(response) {
     const completed = response.completed;
     const missed = response.missed;
 
-       return `
+    return `
         <div id="${response.task_id}" class="parentCard w-full h-[200px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 mb-4 p-4">
             <div class="flex h-full items-center justify-between">
                 <!-- Left: Task Title -->
@@ -90,11 +91,11 @@ function taskRecords(response) {
                 <div class="flex flex-col items-end gap-2 text-sm">
                     <div class="flex items-center gap-2">
                         <div style="width: 10px; height: 10px; border-radius: 50%; background-color: #22c55e;"></div>
-                        <span class="text-gray-700">Completed: ${completed}x</span>
+                        <span class="completed text-gray-700">Completed: ${completed}x</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <div style="width: 10px; height: 10px; border-radius: 50%; background-color: #ef4444;"></div>
-                        <span class="text-gray-700">Missed: ${missed}x</span>
+                        <span class="missed text-gray-700">Missed: ${missed}x</span>
                     </div>
                 </div>
             </div>
@@ -102,7 +103,13 @@ function taskRecords(response) {
     `;
 }
 
-function add_complete(id){
-
+function add_complete(id) {
+    const parent = $("#task-completed").find(`#${id}`);
+    const complete_update = $(parent).find(".completed").text();
+    const missed_update = $(parent).find(".missed").text();
+    let completeVal = parseInt(complete_update.slice(11, -1));
+    let missedVal =  parseInt(missed_update.slice(8, -1));
+    let missed = (missedVal > 0) ? missedVal-1 : 0;
+    $(parent).find(".completed").text(`Completed: ${completeVal+1}x`);
+     $(parent).find(".missed").text(`Missed: ${missed}x`);
 }
-
