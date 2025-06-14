@@ -72,9 +72,9 @@ function taskDoneAnimation (elem){
 
 }
 
+// display the task record
 function taskRecords(response) {
     // Get completed & missed count from task_status
-    console.log(response);
     const completed = response.completed;
     const missed = response.missed;
 
@@ -100,5 +100,9 @@ function taskRecords(response) {
             </div>
         </div>
     `;
+}
+
+function add_complete(id){
+
 }
 

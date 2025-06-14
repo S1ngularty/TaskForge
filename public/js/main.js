@@ -5,15 +5,20 @@ $(document).ready(function () {
     const indexTask = new Request("/api", "task", token);
     indexTask.getAll(
         function (data) {
-            
             const section = $("#task-section");
             data.forEach((data) => {
-                data.ts_id=data.task_status[0].ts_id;
+                data.ts_id = data.task_status[0].ts_id;
                 console.log(data);
                 section.append(sectionCard(data));
             });
         },
         () => console.log("couldnt fetch the data from the database!")
+    );
+
+    const taskRecord = new task("/api", "task/sys_update", token);
+    taskRecord.getAll(
+        (res) => console.log("sytem is up to date"),
+        (res) => console.error("Error :", res)
     );
 
     // update function
@@ -104,7 +109,7 @@ $(document).ready(function () {
                 formData,
                 function (response) {
                     modalReset();
-                    response.data.ts_id=response.stage.ts_id;
+                    response.data.ts_id = response.stage.ts_id;
                     console.log(response);
                     $("#task-section").prepend(sectionCard(response.data));
                 },
@@ -134,7 +139,7 @@ $(document).ready(function () {
         }
     });
 
-    const completedTask = new task("/api", "task/task_records",token);
+    const completedTask = new task("/api", "task/task_records", token);
     completedTask.getAll(function (response) {
         // console.log(response);
         const section = $("#task-completed");
@@ -146,8 +151,6 @@ $(document).ready(function () {
                     "failed to fetch the completed task, please try again"
                 );
     });
-
-    
 
     // fetch("http://192.168.1.11:4000/api/v1/item")
     // .then(response=>response.json())
