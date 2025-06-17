@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('user_info', function (Blueprint $table) {
             $table->unsignedBigInteger("user_id");
             $table->string("IGN")->unique();
-            $table->bigInteger("lvl");
+            $table->bigInteger("lvl")->default(0);
+            $table->integer("life")->default(0);
+            $table->integer("exp")->default(0);
             $table->string("bio")->nullable();
             $table->date("last_active")->nullable();
 

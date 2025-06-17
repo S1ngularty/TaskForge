@@ -3,7 +3,11 @@
      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Task') }}
         </h2>
+        <x-status>
+          
+        </x-status>
   </x-slot>
+
 
 <div class="flex flex-col max-h-full">
   <div class="flex justify-start flex-row max-h-full">

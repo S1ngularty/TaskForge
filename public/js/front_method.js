@@ -103,6 +103,7 @@ function taskRecords(response) {
     `;
 }
 
+// dynamically set the updated task streaks
 function add_complete(id) {
     const parent = $("#task-completed").find(`#${id}`);
     const complete_update = $(parent).find(".completed").text();

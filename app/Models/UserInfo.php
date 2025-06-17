@@ -14,6 +14,8 @@ class UserInfo extends Model
         'user_id',
         'IGN',
         'lvl',
+        'life',
+        'exp',
         'bio',
         'last_active'
     ];
