@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PlayerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -17,4 +18,8 @@ Route::get('/user', function (Request $request) {
         Route::get("task/sys_update",[TaskController::class,"sys_update"])->name("task.sys_update");
         Route::apiResource('task',TaskController::class)->names("task");
     });  
+
+   Route::middleware(["auth:api",'load.player'])->prefix('player')->group(function(){
+     Route::get('/',[PlayerController::class,"getPlayer"])->name("getPlayer");
+   });
 
