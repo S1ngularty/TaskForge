@@ -1,11 +1,8 @@
 <x-app-layout>
-  <x-slot name="header">
-     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Task') }}
-        </h2>
-        <x-status>
-          
-        </x-status>
+  <x-slot name="header" >
+    <x-status>
+        
+    </x-status>
   </x-slot>
 
 

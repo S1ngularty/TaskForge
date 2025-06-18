@@ -109,8 +109,20 @@ function add_complete(id) {
     const complete_update = $(parent).find(".completed").text();
     const missed_update = $(parent).find(".missed").text();
     let completeVal = parseInt(complete_update.slice(11, -1));
-    let missedVal =  parseInt(missed_update.slice(8, -1));
-    let missed = (missedVal > 0) ? missedVal-1 : 0;
-    $(parent).find(".completed").text(`Completed: ${completeVal+1}x`);
-     $(parent).find(".missed").text(`Missed: ${missed}x`);
+    let missedVal = parseInt(missed_update.slice(8, -1));
+    let missed = missedVal > 0 ? missedVal - 1 : 0;
+    $(parent)
+        .find(".completed")
+        .text(`Completed: ${completeVal + 1}x`);
+    $(parent).find(".missed").text(`Missed: ${missed}x`);
+}
+
+function playerStatus(data) {
+    // console.log(data)
+    const main = $(".player-status");
+    main.find(".name").text(data[0]);
+    main.find(".player-lvl").text(`LVL: ${data[1]}`);
+    main.find(".life-bar").attr('style',`width:${data[2]}%`);
+    main.find(".exp-bar").attr('style',`width:${data[3]}%`);
+    main.find(".exp-percent").text(data[3]+"%");
 }

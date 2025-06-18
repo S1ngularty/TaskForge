@@ -19,18 +19,20 @@ class PlayerController extends Controller
     private $user_id;
     private $life;
     private $exp;
+    private $ign;
     private $level;
 
     private function setPlayer($request){
        $this->life=$request->player->user_info->life;
        $this->exp=$request->player->user_info->exp;
        $this->level=$request->player->user_info->lvl;
+        $this->ign=$request->player->user_info->IGN;
     }
     
     public function getPlayer(Request $request){
         $this->setPlayer($request);
         return response()->json(
-         data:[$this->level,$this->exp,$this->life]    
+         data:[$this->ign,$this->level,$this->exp,$this->life]    
         );
     }
 
