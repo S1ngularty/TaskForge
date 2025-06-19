@@ -127,8 +127,11 @@ class TaskController extends Controller
          if($ts->save()){
            $flag=$this->increaseStats($playerId,$exp,$lvl);
         //    dd($flag);
-             if($flag){
-                return response()->json("task completed!");
+             if($flag[0]){
+                return response()->json([
+                    'message'=>'task complete',
+                    'data'=>$flag[1]
+                ],200);
             }
              return response()->json("failed to update the player status");  
         }
@@ -142,9 +145,9 @@ class TaskController extends Controller
         $player->lvl = ($curr_exp>=$expNeeded) ? $lvl+1 : $lvl;
         $player->exp= ($curr_exp>=$expNeeded) ? 0 : $curr_exp;
         if($player->save()){
-            return true;
+            return [true,$player];
         }
-        return false;
+        return [false];
     }
 
     /**

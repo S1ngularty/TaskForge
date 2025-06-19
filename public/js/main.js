@@ -71,13 +71,16 @@ $(document).ready(function () {
             request.taskDone(
                 target,
                 function (response) {
-                    console.log(response);
+                    console.log(response.message);
+                    const { IGN, lvl, exp, life } = response.data;
                     taskDoneAnimation($(e.target).closest(".parentCard"));
                     add_complete(task_id);
+                    playerStatus([IGN, lvl, exp, life]);
                 },
                 (response) =>
                     console.error(
-                        "failed to mark as completed your task, please try again", response
+                        "failed to mark as completed your task, please try again",
+                        response
                     )
             );
         });
@@ -161,6 +164,4 @@ $(document).ready(function () {
     // .then(response=>response.json())
     // .then(data=> console.log(data))
     // .catch(error=>console.log(error))
-
-    
 });

@@ -119,7 +119,7 @@ function add_complete(id) {
 
 // set player stats
 function playerStatus(data) {
-    // console.log(data)
+    console.log(data)
    let exp=((data[2]/(100 * (1.5 ^ data[1]-1)))*100);
     const main = $(".player-status");
     main.find(".name").text(data[0]);
