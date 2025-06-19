@@ -117,12 +117,14 @@ function add_complete(id) {
     $(parent).find(".missed").text(`Missed: ${missed}x`);
 }
 
+// set player stats
 function playerStatus(data) {
     // console.log(data)
+   let exp=((data[2]/(100 * (1.5 ^ data[1]-1)))*100);
     const main = $(".player-status");
     main.find(".name").text(data[0]);
     main.find(".player-lvl").text(`LVL: ${data[1]}`);
-    main.find(".life-bar").attr('style',`width:${data[2]}%`);
-    main.find(".exp-bar").attr('style',`width:${data[3]}%`);
-    main.find(".exp-percent").text(data[3]+"%");
+    main.find(".life-bar").attr('style',`width:${data[3]}%`);
+    main.find(".exp-bar").attr('style',`width:${((data[2]/(100 * (1.5 ^ data[1]-1)))*100)}%`);
+    main.find(".exp-percent").text(`${exp.toFixed(2)}%`);
 }

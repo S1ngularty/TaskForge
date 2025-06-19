@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Models\UserInfo;
 use App\Models\task_status;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
@@ -115,12 +116,35 @@ class TaskController extends Controller
         
     }
 
-    public function taskDone(Request $reques,$id){
+    public function taskDone(Request $request,$id){
+        $exp=$request->player->user_info->exp;
+        $life=$request->player->user_info->life;
+        $lvl=$request->player->user_info->lvl;
+        $playerId=$request->player->user_id;
+        // return response()->json($request);
         $ts= task_status::find($id);
         $ts->is_complete=1;
          if($ts->save()){
-                 return response()->json("task completed!");
+           $flag=$this->increaseStats($playerId,$exp,$lvl);
+        //    dd($flag);
+             if($flag){
+                return response()->json("task completed!");
             }
+             return response()->json("failed to update the player status");  
+        }
+    }
+
+    private function increaseStats($id,$exp,$lvl){
+        $expNeeded=100*(1.5*($lvl-1));
+        $curr_exp=$exp+50;
+        $player=UserInfo::find($id);
+        // return $player;
+        $player->lvl = ($curr_exp>=$expNeeded) ? $lvl+1 : $lvl;
+        $player->exp= ($curr_exp>=$expNeeded) ? 0 : $curr_exp;
+        if($player->save()){
+            return true;
+        }
+        return false;
     }
 
     /**

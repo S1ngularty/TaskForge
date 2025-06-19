@@ -10,6 +10,7 @@ class UserInfo extends Model
 {
     use HasFactory;
     protected $table="user_info";
+    protected $primaryKey="user_id";
     protected $fillable=[
         'user_id',
         'IGN',
@@ -19,6 +20,7 @@ class UserInfo extends Model
         'bio',
         'last_active'
     ];
+    public $timestamps=false;
 
     public function user(){
         return $this->belongsTo(User::class,'user_id');

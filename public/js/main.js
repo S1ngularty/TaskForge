@@ -8,14 +8,14 @@ $(document).ready(function () {
             const section = $("#task-section");
             data.forEach((data) => {
                 data.ts_id = data.task_status[0].ts_id;
-                console.log(data);
+                // console.log(data);
                 section.append(sectionCard(data));
             });
         },
         () => console.log("couldnt fetch the data from the database!")
     );
 
-    // update the task  depending on their data_end and occurence
+    // regenerate the task  depending on their data_end and occurence
     const taskRecord = new task("/api", "task/sys_update", token);
     taskRecord.getAll(
         (res) => console.log("sytem is up to date"),
@@ -77,7 +77,7 @@ $(document).ready(function () {
                 },
                 (response) =>
                     console.error(
-                        "failed to mark as completed your task, please try again"
+                        "failed to mark as completed your task, please try again", response
                     )
             );
         });
