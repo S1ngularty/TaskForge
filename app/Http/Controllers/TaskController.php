@@ -169,12 +169,12 @@ class TaskController extends Controller
         $curdate=date("Y-m-d");
       try{
         $tasks=task_status::whereHas('task',function($query) use($curdate){
-                $query->whereDate("task_end","<",$curdate)
+                $query->whereDate("task_end","<=",$curdate)
             ->where("recreate",0);
             })->get();
             // return response()->json($tasks);
         foreach($tasks as $task){
-            if(date($curdate)>date($task->task_end)){
+            if($this->currDate>=date($task->task_end)){
                 $newTask=new task_status();
                 $newTask->task_id = $task->task_id;
                 $newTask->task_start = $curdate;
