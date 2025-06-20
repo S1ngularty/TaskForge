@@ -165,26 +165,29 @@ class TaskController extends Controller
 
 
 
-    public function sys_update(){
-        // return response()->json("reached");
-        $curdate=date("Y-m-d");
+    public function sys_update(Request $request){
+        // return response()->json($request);
+        $missed=0;        
       try{
-        $tasks=task_status::whereHas('task',function($query) use($curdate){
-                $query->whereDate("task_end","<=",$curdate)
+        $tasks=task_status::whereHas('task',function($query){
+                $query->whereDate("task_end","<=",$this->currDate)
             ->where("recreate",0);
             })->get();
             // return response()->json($tasks);
         foreach($tasks as $task){
             if($this->currDate>=date($task->task_end)){
+                if($task->is_complete!=1) $missed++; 
                 $newTask=new task_status();
                 $newTask->task_id = $task->task_id;
-                $newTask->task_start = $curdate;
-                $newTask->task_end= $this->occurrence($task->task->occurence,$curdate);
+                $newTask->task_start = $this->currDate;
+                $newTask->task_end= $this->occurrence($task->task->occurence,$this->currDate);
                 $recUpdate=DB::table('task_status')->where("task_id",$task->task_id)->update([
                     "recreate"=>1
                 ]);
                 $newTask->save();  
             }
+       $player= $this->decreaseHP($request->player->user_info,$missed);
+        // dd($player);
         }
       }catch(Throwable $e){
         if($e instanceof ModelNotFoundException){
@@ -199,6 +202,19 @@ class TaskController extends Controller
         }
       }
       return response ()->json("system is up to date");
+    }
+
+    private function decreaseHP($data,$count){
+        $player=UserInfo::find($data->user_id);
+        $hp=(($data->life-(20 * $count))>0) ? [($data->life-(20 * $count)),false] : [50,true] ;
+        $player->life= $hp[0];
+        if($hp[1]==true){
+            $minusExp=($player->exp-20 > 0) ? $player->exp-20 : 0;
+            $player->exp= $minusExp;
+            $player->lvl= ($minusExp>0) ? $player->lvl : abs($player->lvl-1);
+        }
+        $player->save();
+        return  $player;
     }
 
      private function occurrence($occ,$newDate){
@@ -217,8 +233,8 @@ class TaskController extends Controller
     public function TaskRecords(){
 
       $result = Task::whereHas('user',function($query){
-         $query->where('user_id', auth('api')->user()->user_id);
-      })->select('task_id', 'title') // Always include id for relationships
+        $query->where('user_id', auth('api')->user()->user_id);
+        })->select('task_id', 'title') // Always include id for relationships
         ->withCount([
         'task_status as completed' => function ($query) {
             $query->where('is_complete', 1);
@@ -226,9 +242,8 @@ class TaskController extends Controller
         'task_status as missed' => function ($query) {
             $query->where('is_complete', 0);
         }
-    ])
-    ->get();
-return response()->json($result);
+        ])->get();
+        return response()->json($result);
 
     }
 }
