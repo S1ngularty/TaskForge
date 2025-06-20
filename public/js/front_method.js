@@ -119,12 +119,15 @@ function add_complete(id) {
 
 // set player stats
 function playerStatus(data) {
-    // console.log(data)
-   let exp=((data[2]/(100 * (1.5 ^ data[1]-1)))*100);
+    console.log(data)
+    let expThreshold= 100*(1.5 ** (data[1]-1));
+    let currExp=data[2];
+    let totalExp= Math.min((currExp/expThreshold)*100,100);
+    console.log(expThreshold,currExp,totalExp)
     const main = $(".player-status");
     main.find(".name").text(data[0]);
     main.find(".player-lvl").text(`LVL: ${data[1]}`);
     main.find(".life-bar").attr('style',`width:${data[3]}%`);
-    main.find(".exp-bar").attr('style',`width:${((data[2]/(100 * (1.5 ^ data[1]-1)))*100)}%`);
-    main.find(".exp-percent").text(`${exp.toFixed(2)}%`);
+    main.find(".exp-bar").attr('style',`width:${totalExp.toFixed(2)}%`);
+    main.find(".exp-percent").text(`${totalExp.toFixed(2)}%`);
 }

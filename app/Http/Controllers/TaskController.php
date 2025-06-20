@@ -125,7 +125,7 @@ class TaskController extends Controller
         $ts= task_status::find($id);
         $ts->is_complete=1;
          if($ts->save()){
-           $flag=$this->increaseStats($playerId,$exp,$lvl);
+           $flag=$this->increaseExp($playerId,$life,$exp,$lvl);
         //    dd($flag);
              if($flag[0]){
                 return response()->json([
@@ -137,13 +137,15 @@ class TaskController extends Controller
         }
     }
 
-    private function increaseStats($id,$exp,$lvl){
-        $expNeeded=100*(1.5*($lvl-1));
-        $curr_exp=$exp+50;
+    private function increaseExp($id,$life,$exp,$lvl){
+        $expNeeded=100*(1.5**($lvl-1));
+        $curr_exp=$exp+51;
         $player=UserInfo::find($id);
         // return $player;
+        
         $player->lvl = ($curr_exp>=$expNeeded) ? $lvl+1 : $lvl;
         $player->exp= ($curr_exp>=$expNeeded) ? 0 : $curr_exp;
+        $player->life=($curr_exp>=$expNeeded) ? (($life+20<=100) ? $life+20 : 100) : $life;
         if($player->save()){
             return [true,$player];
         }
@@ -165,7 +167,6 @@ class TaskController extends Controller
 
     public function sys_update(){
         // return response()->json("reached");
-        
         $curdate=date("Y-m-d");
       try{
         $tasks=task_status::whereHas('task',function($query) use($curdate){
