@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\task_status;
+use App\PlayerService as AppPlayerService;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Throwable;
+
+//Services
+
+use App\Services\TaskService;
+use App\Services\PlayerService;
+
+
 
 class TaskController extends Controller
 {
@@ -53,7 +61,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,TaskService $service)
 {
 
     // return response()->json(auth('api')->user());
@@ -70,7 +78,7 @@ class TaskController extends Controller
         $task->task_id=$task->task_id;
         $stage= new task_status();
         $stage->task_id=$task->task_id;
-        $stage->task_end=$this->occurrence($task->occurence,$this->currDate);
+        $stage->task_end=$service->occurrence($task->occurence,$this->currDate);
         if($stage->save()){
             return response()->json([
                 'status' => 201,
@@ -103,30 +111,24 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Task $task, TaskService $service)
     {
-        // return response()->json($task->task_id);
         if($request->update=='true'){
-        $task->title=$request->title;
-        $task->occurence=$request->occurence;
-        $task->description=$request->description;
-        $task->save();
+            if($service->taskUpdate($request,$task->task_id))
         return response()->json($request->all());
         }
-        
     }
 
-    public function taskDone(Request $request,$id){
+    public function taskDone(Request $request,PlayerService $service,$id){
         $exp=$request->player->user_info->exp;
         $life=$request->player->user_info->life;
         $lvl=$request->player->user_info->lvl;
         $playerId=$request->player->user_id;
-        // return response()->json($request);
         $ts= task_status::find($id);
         $ts->is_complete=1;
+
          if($ts->save()){
-           $flag=$this->increaseExp($playerId,$life,$exp,$lvl);
-        //    dd($flag);
+           $flag=$service->increaseExp($playerId,$life,$exp,$lvl);
              if($flag[0]){
                 return response()->json([
                     'message'=>'task complete',
@@ -137,20 +139,6 @@ class TaskController extends Controller
         }
     }
 
-    private function increaseExp($id,$life,$exp,$lvl){
-        $expNeeded=100*(1.5**($lvl-1));
-        $curr_exp=$exp+51;
-        $player=UserInfo::find($id);
-        // return $player;
-        
-        $player->lvl = ($curr_exp>=$expNeeded) ? $lvl+1 : $lvl;
-        $player->exp= ($curr_exp>=$expNeeded) ? 0 : $curr_exp;
-        $player->life=($curr_exp>=$expNeeded) ? (($life+20<=100) ? $life+20 : 100) : $life;
-        if($player->save()){
-            return [true,$player];
-        }
-        return [false];
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -165,38 +153,17 @@ class TaskController extends Controller
 
 
 
-    public function sys_update(Request $request){
-        // return response()->json($request);
-        $missed=0;        
+    public function sys_update(Request $request, TaskService $taskService){
       try{
-        $tasks=task_status::whereHas('task',function($query){
-                $query->whereDate("task_end","<=",$this->currDate)
-            ->where("recreate",0);
-            })->get();
-            // return response()->json($tasks);
-        foreach($tasks as $task){
-            if($this->currDate>=date($task->task_end)){
-                if($task->is_complete!=1) $missed++; 
-                $newTask=new task_status();
-                $newTask->task_id = $task->task_id;
-                $newTask->task_start = $this->currDate;
-                $newTask->task_end= $this->occurrence($task->task->occurence,$this->currDate);
-                $recUpdate=DB::table('task_status')->where("task_id",$task->task_id)->update([
-                    "recreate"=>1
-                ]);
-                $newTask->save();  
-            }
-       $player= $this->decreaseHP($request->player->user_info,$missed);
-        // dd($player);
-        }
+       $taskService->system_update($this->currDate,$request);
       }catch(Throwable $e){
         if($e instanceof ModelNotFoundException){
             return response()->json([
               'success' => false,
-                'error_type' => get_class($e),     // Ex: Illuminate\Database\Eloquent\ModelNotFoundException
-                'message' => $e->getMessage(),     // Error message
-                'trace' => $e->getTrace(),         // Stack trace (array form)
-                'file' => $e->getFile(),           // File where error happened
+                'error_type' => get_class($e),     
+                'message' => $e->getMessage(),     
+                'trace' => $e->getTrace(),        
+                'file' => $e->getFile(),           
                 'line' => $e->getLine(),    
             ],500);
         }
@@ -204,46 +171,14 @@ class TaskController extends Controller
       return response ()->json("system is up to date");
     }
 
-    private function decreaseHP($data,$count){
-        $player=UserInfo::find($data->user_id);
-        $hp=(($data->life-(20 * $count))>0) ? [($data->life-(20 * $count)),false] : [50,true] ;
-        $player->life= $hp[0];
-        if($hp[1]==true){
-            $minusExp=($player->exp-20 > 0) ? $player->exp-20 : 0;
-            $player->exp= $minusExp;
-            $player->lvl= ($minusExp>0) ? $player->lvl : abs($player->lvl-1);
-        }
-        $player->save();
-        return  $player;
-    }
+   
 
-     private function occurrence($occ,$newDate){
-        switch($occ){
-            case "daily":
-                return date("Y-m-d",strtotime("$newDate +1 day"));
-            case "weekly":
-                 return date("Y-m-d",strtotime("$newDate +1 week"));
-            case "monthly":
-                return date("Y-m-d",strtotime("$newDate +1 month"));
-            case "yearly":
-                return date("Y-m-d",strtotime("$newDate +1 year"));
-        }
-    }
+     
 
-    public function TaskRecords(){
+    public function TaskRecords(TaskService $service){
 
-      $result = Task::whereHas('user',function($query){
-        $query->where('user_id', auth('api')->user()->user_id);
-        })->select('task_id', 'title') // Always include id for relationships
-        ->withCount([
-        'task_status as completed' => function ($query) {
-            $query->where('is_complete', 1);
-        },
-        'task_status as missed' => function ($query) {
-            $query->where('is_complete', 0);
-        }
-        ])->get();
-        return response()->json($result);
+     
+        return response()->json($service->taskRecord());
 
     }
 }

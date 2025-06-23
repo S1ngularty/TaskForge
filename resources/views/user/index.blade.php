@@ -28,43 +28,130 @@
       
     </x-section>
 
-   <x-section id="shop">
-    <div class="flex flex-wrap justify-center gap-2">
-        
-        <!-- CARD 1 -->
-        <div class="sm:w-[48%] md:w-[31%] xl:w-[43.5%] aspect-square bg-white rounded-xl shadow p-4 flex flex-col items-center justify-between">
-            <img src="https://ih1.redbubble.net/image.3178824635.0526/st,small,507x507-pad,600x600,f8f8f8.jpg"
-                alt="Health Potion"
-                class="w-full h-[80px] object-contain rounded" />
-            <h6 class="text-md font-semibold text-gray-800 text-center">Health potion 30%</h6>
-            <p class="text-sm text-gray-600">₱59.00</p>
-            <div class="flex items-center gap-2">
-                <button class="bg-gray-200 w-6 h-6 rounded text-gray-600">−</button>
-                <input type="number" value="1" min="1" class="w-12 text-center border border-gray-300 rounded text-sm py-1" />
-                <button class="bg-gray-200 w-6 h-6 rounded text-gray-600">+</button>
+ <x-section id="shop">
+    <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+        <!-- CARD -->
+        <div class="w-[48%] sm:w-[45%] md:w-[30%] lg:w-[22%] xl:w-[18%] aspect-square bg-white rounded-xl shadow overflow-hidden">
+            <div class="flex flex-col h-full p-3 items-center justify-between">
+                <!-- Image -->
+                <img src="https://ih1.redbubble.net/image.3178824635.0526/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                     alt="Health Potion"
+                     class="w-full h-[70px] object-contain rounded" />
+
+                <!-- Title -->
+                <h6 class="text-sm font-semibold text-gray-800 text-center leading-tight">Health potion 30%</h6>
+
+                <!-- Price -->
+                <p class="text-xs text-gray-600">₱51.00</p>
+
+                <!-- Quantity Selector -->
+                <div class="flex items-center gap-2">
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">−</button>
+                    <input type="number" value="1" min="1"
+                           class="w-10 text-center border border-gray-300 rounded text-xs py-1" />
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">+</button>
+                </div>
+
+                <!-- Stock Info -->
+                <p class="text-xs text-gray-500">Available: 12 in stock</p>
+
+                <!-- Buy Button -->
+                <button class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded w-full">Buy</button>
             </div>
-            <p class="text-xs text-gray-500">Available: 12 in stock</p>
-            <button class="bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-1 rounded w-full">Buy</button>
         </div>
 
-        <!-- CARD 2 -->
-        <div class="sm:w-[48%] md:w-[31%] xl:w-[43.5%] aspect-square bg-white rounded-xl shadow p-4 flex flex-col items-center justify-between">
-            <img src="http://thumb.ac-illust.com/67/67ae9bd65cd177c93710a783e09a1b72_t.jpeg"
-                alt="Health Potion"
-                class="w-full h-[80px] object-contain rounded" />
-            <h6 class="text-md font-semibold text-gray-800 text-center">+15% Exp boost (15 minutes)</h6>
-            <p class="text-sm text-gray-600">₱59.00</p>
-            <div class="flex items-center gap-2">
-                <button class="bg-gray-200 w-6 h-6 rounded text-gray-600">−</button>
-                <input type="number" value="1" min="1" class="w-12 text-center border border-gray-300 rounded text-sm py-1" />
-                <button class="bg-gray-200 w-6 h-6 rounded text-gray-600">+</button>
+         <div class="w-[48%] sm:w-[45%] md:w-[30%] lg:w-[22%] xl:w-[18%] aspect-square bg-white rounded-xl shadow overflow-hidden">
+            <div class="flex flex-col h-full p-3 items-center justify-between">
+                <!-- Image -->
+                <img src="https://ih1.redbubble.net/image.3178824635.0526/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                     alt="Health Potion"
+                     class="w-full h-[70px] object-contain rounded" />
+
+                <!-- Title -->
+                <h6 class="text-sm font-semibold text-gray-800 text-center leading-tight">Health potion 30%</h6>
+
+                <!-- Price -->
+                <p class="text-xs text-gray-600">₱51.00</p>
+
+                <!-- Quantity Selector -->
+                <div class="flex items-center gap-2">
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">−</button>
+                    <input type="number" value="1" min="1"
+                           class="w-10 text-center border border-gray-300 rounded text-xs py-1" />
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">+</button>
+                </div>
+
+                <!-- Stock Info -->
+                <p class="text-xs text-gray-500">Available: 12 in stock</p>
+
+                <!-- Buy Button -->
+                <button class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded w-full">Buy</button>
             </div>
-            <p class="text-xs text-gray-500">Available: 12 in stock</p>
-            <button class="bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-1 rounded w-full">Buy</button>
         </div>
 
+         <div class="w-[48%] sm:w-[45%] md:w-[30%] lg:w-[22%] xl:w-[18%] aspect-square bg-white rounded-xl shadow overflow-hidden">
+            <div class="flex flex-col h-full p-3 items-center justify-between">
+                <!-- Image -->
+                <img src="https://ih1.redbubble.net/image.3178824635.0526/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                     alt="Health Potion"
+                     class="w-full h-[70px] object-contain rounded" />
+
+                <!-- Title -->
+                <h6 class="text-sm font-semibold text-gray-800 text-center leading-tight">Health potion 30%</h6>
+
+                <!-- Price -->
+                <p class="text-xs text-gray-600">₱51.00</p>
+
+                <!-- Quantity Selector -->
+                <div class="flex items-center gap-2">
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">−</button>
+                    <input type="number" value="1" min="1"
+                           class="w-10 text-center border border-gray-300 rounded text-xs py-1" />
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">+</button>
+                </div>
+
+                <!-- Stock Info -->
+                <p class="text-xs text-gray-500">Available: 12 in stock</p>
+
+                <!-- Buy Button -->
+                <button class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded w-full">Buy</button>
+            </div>
+        </div>
+
+         <div class="w-[48%] sm:w-[45%] md:w-[30%] lg:w-[22%] xl:w-[18%] aspect-square bg-white rounded-xl shadow overflow-hidden">
+            <div class="flex flex-col h-full p-3 items-center justify-between">
+                <!-- Image -->
+                <img src="https://ih1.redbubble.net/image.3178824635.0526/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                     alt="Health Potion"
+                     class="w-full h-[70px] object-contain rounded" />
+
+                <!-- Title -->
+                <h6 class="text-sm font-semibold text-gray-800 text-center leading-tight">Health potion 30%</h6>
+
+                <!-- Price -->
+                <p class="text-xs text-gray-600">₱51.00</p>
+
+                <!-- Quantity Selector -->
+                <div class="flex items-center gap-2">
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">−</button>
+                    <input type="number" value="1" min="1"
+                           class="w-10 text-center border border-gray-300 rounded text-xs py-1" />
+                    <button class="bg-gray-200 w-6 h-6 rounded text-gray-600 text-sm">+</button>
+                </div>
+
+                <!-- Stock Info -->
+                <p class="text-xs text-gray-500">Available: 12 in stock</p>
+
+                <!-- Buy Button -->
+                <button class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded w-full">Buy</button>
+            </div>
+        </div>
+
+
+        <!-- Copy for more cards -->
     </div>
 </x-section>
+
 
 
 

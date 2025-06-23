@@ -103,7 +103,7 @@ $(document).ready(function () {
         );
     });
 
-    // modal submit button
+    // modal submit button (create & update)
     $("#createTaskbtn").click(function (e) {
         e.preventDefault();
         const formData = new FormData($("#taskForm")[0]);
